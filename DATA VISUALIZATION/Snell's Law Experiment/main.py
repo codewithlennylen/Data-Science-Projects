@@ -1,6 +1,5 @@
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import math
-import numpy as np
 
 # A light ray from air entering water of refactive index, n = 1.33
 
@@ -28,16 +27,30 @@ print(theta_i[-1])
 theta_r = []
 for angle in theta_i:
 
-    calculated_theta_r = (math.sin(angle)) * 57.2958 # Convert radians to degrees
-    calculated_theta_r = ((n1 * math.sin(angle))/n2)
-    # calculated_theta_r = 1/math.sin(calculated_theta_r)
-    calculated_theta_r = math.asin(calculated_theta_r)
+    # Convert the angle to radians first. 
+    # The math.sin function expects the input in radians
+    angle_radians = angle / 57.2958
+
+    calculated_theta_r = (math.sin(angle_radians))
+    calculated_theta_r = ((n1 * calculated_theta_r)/n2)
+    
+    # After computing the arcsine of the input,
+    # Convert the output back to degrees 
+    calculated_theta_r = math.asin(calculated_theta_r) * 57.2958
 
     theta_r.append(calculated_theta_r)
 
 print(len(theta_r))
 print(theta_r[-1])
 
-print('\n\n')
-print(math.sin(50)*57.2958)
-print(np.sin(50)*57.2958)
+# print('\n\n')
+# print(math.sin(50/57.2958)) # 0.7660442425476806
+# print(math.asin(0.7660442425476806) * 57.2958)
+
+# Plot theta_i against theta_r
+plt.plot(theta_i, theta_r, marker='X')
+# plt.plot([math.sin(i) for i in theta_i], [math.sin(r) for r in theta_r]) # Epic Fail!
+plt.xlabel('Angle of Incidence')
+plt.ylabel('Angle of Refraction')
+plt.title('Graphical Representation of Snell\'s Law')
+plt.show()
